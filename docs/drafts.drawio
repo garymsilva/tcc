@@ -70,7 +70,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="IVPt4wAUyyiLJ2RPFlHK" name="Schedule">
-        <mxGraphModel dx="1181" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="910" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="sdK_GgQ5e2t9pM_EpbZv-0"/>
                 <mxCell id="sdK_GgQ5e2t9pM_EpbZv-1" parent="sdK_GgQ5e2t9pM_EpbZv-0"/>
@@ -165,7 +165,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="pdYdb7uIE1PNASePe-Tf" name="Architecture">
-        <mxGraphModel dx="1181" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="910" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="kSwMM-WhgLOKoG15LnSx-0"/>
                 <mxCell id="kSwMM-WhgLOKoG15LnSx-1" parent="kSwMM-WhgLOKoG15LnSx-0"/>
