@@ -1,0 +1,15 @@
+{
+    "projectName": "GoGen",
+    "languages": [{
+        "id": "go-gen",
+        "grammar": "src/language/go-gen.langium",
+        "fileExtensions": [".gogen"],
+        "textMate": {
+            "out": "syntaxes/go-gen.tmLanguage.json"
+        },
+        "monarch": {
+            "out": "syntaxes/go-gen.monarch.ts"
+        }
+    }],
+    "out": "src/language/generated"
+}
