@@ -4,14 +4,14 @@ import { Command } from 'commander';
 import { TolkienLanguageMetaData } from '../language/generated/module.js';
 import { createTolkienServices } from '../language/tolkien-module.js';
 import { extractAstNode } from './cli-util.js';
-import { generateJavaScript } from './generator.js';
+import { generateGoLangApi } from './generator.js';
 import { NodeFileSystem } from 'langium/node';
 
 export const generateAction = async (fileName: string, opts: GenerateOptions): Promise<void> => {
     const services = createTolkienServices(NodeFileSystem).Tolkien;
     const model = await extractAstNode<Model>(fileName, services);
-    const generatedFilePath = generateJavaScript(model, fileName, opts.destination);
-    console.log(chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`));
+    const generatedFilePath = generateGoLangApi(model, fileName, opts.destination);
+    console.log(chalk.green(`GoLang code generated successfully: ${generatedFilePath}`));
 };
 
 export type GenerateOptions = {
@@ -30,7 +30,7 @@ export default function(): void {
         .command('generate')
         .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
         .option('-d, --destination <dir>', 'destination directory of generating')
-        .description('generates JavaScript code that prints "Hello, {name}!" for each greeting in a source file')
+        .description('generates a GoLang API')
         .action(generateAction);
 
     program.parse(process.argv);

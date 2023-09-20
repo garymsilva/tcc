@@ -1,7 +1,26 @@
-import type { DefaultSharedModuleContext, LangiumServices, LangiumSharedServices, Module, PartialLangiumServices } from 'langium';
-import { createDefaultModule, createDefaultSharedModule, inject } from 'langium';
-import { TolkienGeneratedModule, TolkienGeneratedSharedModule } from './generated/module.js';
-import { TolkienValidator, registerValidationChecks } from './tolkien-validator.js';
+import type {
+    DefaultSharedModuleContext,
+    LangiumServices,
+    LangiumSharedServices,
+    Module,
+    PartialLangiumServices,
+} from 'langium';
+
+import {
+    createDefaultModule,
+    createDefaultSharedModule,
+    inject
+} from 'langium';
+
+import {
+    TolkienGeneratedModule,
+    TolkienGeneratedSharedModule
+} from './generated/module.js';
+
+import {
+    TolkienValidator,
+    registerValidationChecks
+} from './tolkien-validator.js';
 
 /**
  * Declaration of custom services - add your own service classes here.

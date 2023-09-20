@@ -1,10 +1,13 @@
 import type { Model } from '../language/generated/ast.js';
 import * as path from 'node:path';
-import { generateControllersModule } from './tolkienerator/main-generator.js';
+import {
+    GenerateBaseProject,
+    generateControllersModule
+} from './api-generator/index.js';
 
-export function generateJavaScript(model: Model, filePath: string, destination: string | undefined): string {
+export function generateGoLangApi(model: Model, filePath: string, destination: string | undefined): string {
     const finalDestination = extractDestination(filePath, destination);
-    console.log("hello")
+    GenerateBaseProject(finalDestination) // TODO: work in progress
     generateControllersModule(model, finalDestination);
     return finalDestination;
 }
