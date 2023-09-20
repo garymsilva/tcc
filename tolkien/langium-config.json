@@ -1,0 +1,15 @@
+{
+    "projectName": "Tolkien",
+    "languages": [{
+        "id": "tolkien",
+        "grammar": "src/language/tolkien.langium",
+        "fileExtensions": [".tolkien"],
+        "textMate": {
+            "out": "syntaxes/tolkien.tmLanguage.json"
+        },
+        "monarch": {
+            "out": "syntaxes/tolkien.monarch.ts"
+        }
+    }],
+    "out": "src/language/generated"
+}

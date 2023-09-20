@@ -1,0 +1,19 @@
+service participant
+
+controller participant services [participant]
+
+
+
+
+// comandos de cli
+// gandalf generate controller:user(service:user(dao:user()))
+// gandalf generate controller:user(service:user(dao:user()),service:product(dao:product()))
+// gandalf generate service:user(dao:user())
+// gandalf generate service:user(dao:user(),service:product())
+// gandalf generate dao:user()
+
+// gandalf generate service:user[dao:user,service:product[dao:product]]
+// gandalf generate dao:user service:user[dao:user] dao:product service:product[dao:product] controller:purchase[service:user,service:product]
+
+// futuro
+// gandalf generate service:user[dao:user,method:getUser[userId:][]]
