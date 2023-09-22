@@ -1,3 +1,24 @@
+module sauron
+
+goVersion "1.18"
+
+lib "cloud.google.com/go/bigquery v1.39.0"
+lib "cloud.google.com/go/pubsub v1.25.1"
+lib "cloud.google.com/go/storage v1.23.0"
+lib "github.com/go-playground/validator v9.31.0+incompatible"
+lib "github.com/google/uuid v1.3.0"
+lib "github.com/gorilla/handlers v1.5.1"
+lib "github.com/gorilla/mux v1.8.0"
+lib "github.com/joaopandolfi/blackwhale v1.3.6"
+lib "github.com/joho/godotenv v1.4.0"
+lib "github.com/machinebox/graphql v0.2.2"
+lib "github.com/opentracing/opentracing-go v1.2.0"
+lib "github.com/stretchr/testify v1.8.4"
+lib "github.com/unrolled/secure v1.12.0"
+lib "golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0"
+lib "google.golang.org/api v0.93.0"
+lib "gorm.io/gorm v1.23.8"
+
 service participant
 
 controller participant services [participant]

@@ -19,7 +19,7 @@ function generateControllerFile(controller: Controller): string {
   `
 }
 
-export function generateControllers(model: Model, target_folder: string) : void {
+export function GenerateControllers(model: Model, target_folder: string) : void {
   const controllers = model.controllers.filter(isController);
 
   for (const controller of controllers) {

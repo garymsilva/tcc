@@ -1,58 +1,68 @@
 import fs from 'fs'
 import path from 'path'
 import { toString } from 'langium';
+import { Model } from '../../../../language/generated/ast.js';
 import {
-  Config,
-  ControllerInterface,
-  Main,
-  Router,
-  StartCmd,
-  WebServer
-} from "./template.js"
+  buildConfig,
+  buildControllerInterface,
+  buildGoMod,
+  buildMain,
+  buildRouter,
+  buildStartCmd,
+  buildWebServer,
+} from './builders.js';
 
 type File = {
   relativePath: string
   fileName: string
-  template: string
+  builder: (model: Model) => string
 }
 
 const baseProject: File[] = [
   {
     relativePath: "/",
+    fileName: "go.mod",
+    builder: buildGoMod
+  },
+  {
+    relativePath: "/",
     fileName: "main.go",
-    template: Main
+    builder: buildMain
   },
   {
     relativePath: "/web/server",
     fileName: "server.go",
-    template: WebServer
+    builder: buildWebServer
   },
   {
     relativePath: "/web/router",
     fileName: "router.go",
-    template: Router
+    builder: buildRouter
   },
   {
     relativePath: "/web/controllers",
     fileName: "controller.go",
-    template: ControllerInterface
+    builder: buildControllerInterface
   },
   {
     relativePath: "/config",
     fileName: "config.go",
-    template: Config
+    builder: buildConfig
   },
   {
     relativePath: "/cmd",
     fileName: "start.go",
-    template: StartCmd
+    builder: buildStartCmd
   },
 ]
 
-export function GenerateBaseProject(target_folder: string) {
+function generateFile(file: File, model: Model, target_folder: string) {
+  fs.mkdirSync(path.join(target_folder, file.relativePath), {recursive:true})
+  fs.writeFileSync(path.join(target_folder, file.relativePath, file.fileName), toString(file.builder(model)))
+}
+
+export function GenerateBaseProject(model: Model, target_folder: string) {
   for (let i = 0; i < baseProject.length; i++) {
-    const file = baseProject[i];
-    fs.mkdirSync(path.join(target_folder, file.relativePath), {recursive:true})
-    fs.writeFileSync(path.join(target_folder, file.relativePath, file.fileName), toString(file.template))
+    generateFile(baseProject[i], model, target_folder);
   }
 }

@@ -1,7 +1,23 @@
 grammar Tolkien
 
 entry Model:
-    (services+=Service | controllers+=Controller | daos+=Dao)*;
+(
+    module=Module |
+    goVersion=GoVersion |
+    dependencies+=Dependency |
+    services+=Service |
+    controllers+=Controller |
+    daos+=Dao
+)*;
+
+Module:
+    'module' name=ID;
+
+GoVersion:
+    'goVersion' name=STRING;
+
+Dependency:
+    'lib' name=STRING;
 
 Service:
     'service' name=ID;

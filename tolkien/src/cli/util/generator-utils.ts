@@ -28,3 +28,19 @@ export function createPath(...args: string[]) : string {
   }
   return PATH
 }
+
+/**
+ * Dado um template de string, substitui as variáveis pelos dados fornecidos e retorna a string resultante
+ * 
+ * @param template - String para usar como template
+ * @param data - Dados para substituir no template
+ * @returns - Template com as variáveis substituídas pelos dados
+ */
+export function parseTemplate(template: string, data: Object): string {
+  let result = template;
+  Object.entries(data).forEach(([k, v]) => {
+    result = result.replaceAll(`{{${k}}}`, v);
+    result = result.replaceAll(`{{upper_${k}}}`, capitalizeString(v));
+  })
+  return result;
+}

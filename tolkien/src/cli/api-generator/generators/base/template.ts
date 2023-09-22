@@ -1,7 +1,16 @@
 import { expandToStringWithNL } from 'langium';
 
-export const Import = expandToStringWithNL`
-import (
+export const GoMod = expandToStringWithNL`
+module {{module}}
+
+go {{go_version}}
+
+require (
+{{direct_dependencies}}
+)
+
+require (
+{{indirect_dependencies}}
 )
 `
 
@@ -101,8 +110,6 @@ import (
 
 	"sauron/cmd"
 	"sauron/config"
-	"sauron/models/dao"
-	"sauron/repository/pubsub"
 
 	"github.com/joaopandolfi/blackwhale/handlers"
 	"github.com/joaopandolfi/blackwhale/remotes/cache"
@@ -126,24 +133,14 @@ func configInit(ctx context.Context) {
 	tracerCloser = closer
 	opentracing.SetGlobalTracer(tracer)
 
-	err := pubsub.Init(ctx, config.Get().GCloud.ProjectID)
-	if err != nil {
-		utils.Error("Starting Pub/Sub", err.Error())
-	}
-
-	dao.InitHasuraClient()
-
 	cache.Initialize(time.Minute * time.Duration(config.Get().GarbageCollectorMinutes))
 }
 
 func gracefullShutdown() {
 	fmt.Println("<====================================Shutdown==================================>")
-	pubsub.Close()
 	if tracerCloser != nil {
 		tracerCloser.Close()
 	}
-
-	pubsub.Close()
 }
 
 func welcome() {
@@ -183,7 +180,115 @@ func main() {
 `
 
 export const Config = expandToStringWithNL`
+package config
 
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"time"
+
+	c "github.com/joaopandolfi/blackwhale/configurations"
+	"github.com/joho/godotenv"
+	"github.com/unrolled/secure"
+)
+
+type Config struct {
+	File                    map[string]string
+	AESKey                  string
+	DefaultPassword         string
+	BcryptCost              int
+	SystemID                int
+	SystemToken             string
+	Propertyes              c.Configurations
+	PostgreSQL              string
+	Server                  server        \`json:"server"\`
+	SnakeByDefault          bool
+	GarbageCollectorMinutes int
+}
+
+type server struct {
+	Port         string
+	Host         string
+	TimeoutWrite time.Duration
+	TimeoutRead  time.Duration
+	Debug        bool
+	Security     security
+}
+
+type security struct {
+	TLSCert    string
+	TLSKey     string
+	Opsec      secure.Options
+	BcryptCost int //10,11,12,13,14
+	JWTSecret  string
+	AESKey     string
+}
+
+// Config global
+var cfg *Config
+
+// Get Config
+func Get() Config {
+	if cfg == nil {
+		panic(fmt.Errorf("config not loaded"))
+	}
+
+	return *cfg
+}
+
+func (c *Config) getEnvOrFile(key string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return cfg.File[key]
+}
+
+// Load config
+func Load(args []string) {
+	godotenv.Load(".env")
+	cfile := "./config.json"
+	cfg = &Config{
+		File: c.LoadJsonFile(cfile),
+	}
+	c.LoadConfig(c.LoadFromFile(cfile))
+	cfg.Propertyes = c.Configuration
+	systemID, _ := strconv.Atoi(cfg.File["SYSTEM_ID"])
+	cfg.SystemID = systemID
+	cfg.SystemToken = cfg.getEnvOrFile("SYSTEM_TOKEN")
+
+	cfg.AESKey = cfg.getEnvOrFile("AES_KEY")
+	cfg.Server.Security.AESKey = cfg.AESKey
+	cfg.SnakeByDefault, _ = strconv.ParseBool(cfg.getEnvOrFile("SNAKE_DEFAULT"))
+
+	cfg.PostgreSQL =
+		fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+			cfg.getEnvOrFile("POSTGRESQL_HOST"), cfg.getEnvOrFile("POSTGRESQL_PORT"), cfg.getEnvOrFile("POSTGRESQL_USER"),
+			cfg.getEnvOrFile("POSTGRESQL_PASSWORD"), cfg.getEnvOrFile("POSTGRESQL_DB"))
+
+	cfg.BcryptCost, _ = strconv.Atoi(cfg.getEnvOrFile("BCRYPT_COST"))
+	cfg.DefaultPassword = cfg.getEnvOrFile("DEFAULT_PASSWORD")
+
+	cfg.Server.Security.JWTSecret = cfg.getEnvOrFile("JWT_SECRET")
+	c.Configuration.Security.JWTSecret = cfg.Server.Security.JWTSecret
+
+	c.Configuration.SlackChannel = cfg.getEnvOrFile("SLACK_CHANNEL")
+	c.Configuration.SlackToken = cfg.getEnvOrFile("SLACK_TOKEN")
+	c.Configuration.SlackWebHook = []string{cfg.getEnvOrFile("SLACK_WEBHOOK")}
+
+	cfg.GarbageCollectorMinutes = 5 // Hardcoded by default
+
+	// Load And Inject Jaeger Envs
+	os.Setenv("JAEGER_SERVICE_NAME", fmt.Sprintf("samples%s", cfg.getEnvOrFile("JAEGER_ENVIRONMENT")))
+	os.Setenv("JAEGER_AGENT_HOST", cfg.getEnvOrFile("JAEGER_AGENT_HOST"))
+	os.Setenv("JAEGER_SAMPLER_TYPE", cfg.getEnvOrFile("JAEGER_SAMPLER_TYPE"))
+	os.Setenv("JAEGER_SAMPLER_PARAM", cfg.getEnvOrFile("JAEGER_SAMPLER_PARAM"))
+	os.Setenv("JAEGER_REPORTER_LOG_SPANS", cfg.getEnvOrFile("JAEGER_REPORTER_LOG_SPANS"))
+}
+
+func Inject(c *Config) {
+	cfg = c
+}
 `
 
 export const ControllerInterface = expandToStringWithNL`
