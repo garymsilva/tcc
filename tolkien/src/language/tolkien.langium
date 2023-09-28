@@ -5,9 +5,10 @@ entry Model:
     module=Module |
     goVersion=GoVersion |
     dependencies+=Dependency |
+    types+=Type |
+    daos+=Dao |
     services+=Service |
-    controllers+=Controller |
-    daos+=Dao
+    controllers+=Controller
 )*;
 
 Module:
@@ -19,14 +20,20 @@ GoVersion:
 Dependency:
     'lib' name=STRING;
 
-Service:
-    'service' name=ID;
+Type:
+    'type' name=ID;
 
-Controller:
-    'controller' name=ID 'services' '['services+=[Service:ID]']';
+Method:
+    'func' name=ID;
 
 Dao:
-    'dao' name=ID;
+    'dao' name=ID ('methods=['methods+=Method (',' methods+=Method)*']')?;
+
+Service:
+    'service' name=ID ('services=['services+=Service (',' services+=Service)*']')? ('daos=['daos+=Dao (',' daos+=Dao)*']')?;
+
+Controller:
+    'controller' name=ID ('services=['services+=Service (',' services+=Service)*']')?;
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][\w_]*/;
