@@ -1,14 +1,14 @@
 export const Dao = `
-package {package_name}
+package dao
 
-type {package_name} interface {
+type {{upper_name}}Dao interface {
 }
 
-type controller struct {
+type {{name}}Dao struct {
 }
 
-func New() {package_name} {
-  return &{package_name} {
+func New() {{upper_name}}Dao {
+  return &{{name}}Dao {
   }
 }
 `

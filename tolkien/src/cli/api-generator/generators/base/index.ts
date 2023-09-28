@@ -1,7 +1,5 @@
-import fs from 'fs'
-import path from 'path'
-import { toString } from 'langium';
 import { Model } from '../../../../language/generated/ast.js';
+import { File, generateFile } from '../types.js';
 import {
   buildConfig,
   buildControllerInterface,
@@ -11,12 +9,6 @@ import {
   buildStartCmd,
   buildWebServer,
 } from './builders.js';
-
-type File = {
-  relativePath: string
-  fileName: string
-  builder: (model: Model) => string
-}
 
 const baseProject: File[] = [
   {
@@ -55,11 +47,6 @@ const baseProject: File[] = [
     builder: buildStartCmd
   },
 ]
-
-function generateFile(file: File, model: Model, target_folder: string) {
-  fs.mkdirSync(path.join(target_folder, file.relativePath), {recursive:true})
-  fs.writeFileSync(path.join(target_folder, file.relativePath, file.fileName), toString(file.builder(model)))
-}
 
 export function GenerateBaseProject(model: Model, target_folder: string) {
   for (let i = 0; i < baseProject.length; i++) {

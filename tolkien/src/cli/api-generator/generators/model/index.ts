@@ -1,18 +1,24 @@
+import { expandToStringWithNL } from "langium";
 import { Model } from "../../../../language/generated/ast.js";
 import { parseTemplate } from "../../../util/generator-utils.js";
 import { File, generateFile } from "../types.js";
-import { Dao } from "./template.js";
+
+const ModelTemplate = expandToStringWithNL`
+package models
+
+type {{upper_name}} struct{}
+`
 
 function buildModel(model: Model, data: () => Object = () => ({})): string {
-	return parseTemplate(Dao, data())
+	return parseTemplate(ModelTemplate, data())
 }
 
-export function GenerateDaos(model: Model, target_folder: string) {
-  for (let i = 0; i < model.daos.length; i++) {
-    const elem = model.daos[i];
+export function GenerateModels(model: Model, target_folder: string) {
+  for (let i = 0; i < model.types.length; i++) {
+    const elem = model.types[i];
     const file = {
-      relativePath: "/models/dao",
-      fileName: `${elem.name.toLowerCase()}.dao.go`,
+      relativePath: "/models",
+      fileName: `${elem.name.toLowerCase()}.go`,
       builder: buildModel,
       data() {
         return {
