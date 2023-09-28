@@ -19,11 +19,27 @@ lib "golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0"
 lib "google.golang.org/api v0.93.0"
 lib "gorm.io/gorm v1.23.8"
 
+type participant
+type participation
+dao participant
+dao participation
+
+service participation
+  daos=[
+    dao participation
+  ]
+
 service participant
+  services=[
+    service participation
+  ]
+  daos=[
+    dao participant
+  ]
 
-controller participant services [participant]
+// controller participant
 
-
+// controller participant services [participant]
 
 // comandos de cli
 // gandalf generate controller:user(service:user(dao:user()))
