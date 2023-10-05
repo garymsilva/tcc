@@ -13,7 +13,7 @@ export function generateGoLangApi(model: Model, filePath: string, destination: s
 
     GenerateBaseProject(model);
     GenerateDomain(model.domain);
-    GenerateDaos(model);
+    GenerateDaos(model.daos);
     return target;
 }
 
