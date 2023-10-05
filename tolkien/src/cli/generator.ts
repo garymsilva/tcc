@@ -1,17 +1,20 @@
 import type { Model } from '../language/generated/ast.js';
 import * as path from 'node:path';
+import config from './config.js';
 import {
     GenerateBaseProject,
+    GenerateDaos,
+    GenerateDomain,
 } from './api-generator/index.js';
-import { GenerateModels } from './api-generator/generators/model/index.js';
-import { GenerateDaos } from './api-generator/generators/dao/index.js';
 
 export function generateGoLangApi(model: Model, filePath: string, destination: string | undefined): string {
-    const finalDestination = extractDestination(filePath, destination);
-    GenerateBaseProject(model, finalDestination);
-    GenerateModels(model, finalDestination); // TODO: talvez chamar um por um
-    GenerateDaos(model, finalDestination); // TODO: idem
-    return finalDestination;
+    const target = extractDestination(filePath, destination);
+    config.targetFolder = target
+
+    GenerateBaseProject(model);
+    GenerateDomain(model.domain);
+    GenerateDaos(model);
+    return target;
 }
 
 function extractDestination(filePath: string, destination?: string) : string {

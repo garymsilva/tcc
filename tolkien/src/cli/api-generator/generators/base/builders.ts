@@ -1,56 +1,49 @@
 import { Model } from "../../../../language/generated/ast.js"
 import { parseTemplate } from "../../../util/generator-utils.js"
-import {
-  Config,
-  ControllerInterface,
-  GoMod,
-  Main,
-  Router,
-  StartCmd,
-  WebServer,
-} from "./template.js"
+import * as template from "./template.js"
 
-export function buildGoMod(model: Model): string {
+const emptyPayload = {}
+
+export function buildGoMod(model?: Model): string {
+	if (!model) {
+		return ""
+	}
+
 	let deps = "";
   for(const lib of model.dependencies) {
     deps += `\t${lib.name}\n`
   }
 
-  const data = {
+  const payload = {
 		module: model.module?.name,
 		go_version: model.goVersion?.name ?? "",
 		direct_dependencies: deps.slice(0, -1),
 		indirect_dependencies: ""
 	}
-	return parseTemplate(GoMod, data)
+
+	return parseTemplate(template.GoMod, payload)
 }
 
-export function buildStartCmd(model: Model): string {
-	const data = {}
-	return parseTemplate(StartCmd, data)
+export function buildStartCmd(): string {
+	return parseTemplate(template.StartCmd, emptyPayload)
 }
 
-export function buildMain(model: Model): string {
-	const data = {}
-	return parseTemplate(Main, data)
+export function buildMain(): string {
+	return parseTemplate(template.Main, emptyPayload)
 }
 
-export function buildConfig(model: Model): string {
-	const data = {}
-	return parseTemplate(Config, data)
+export function buildConfig(): string {
+	return parseTemplate(template.Config, emptyPayload)
 }
 
-export function buildControllerInterface(model: Model): string {
-	const data = {}
-	return parseTemplate(ControllerInterface, data)
+export function buildControllerInterface(): string {
+	return parseTemplate(template.ControllerInterface, emptyPayload)
 }
 
-export function buildRouter(model: Model): string {
-	const data = {}
-	return parseTemplate(Router, data)
+export function buildRouter(): string {
+	return parseTemplate(template.Router, emptyPayload)
 }
 
-export function buildWebServer(model: Model): string {
-	const data = {}
-	return parseTemplate(WebServer, data)
+export function buildWebServer(): string {
+	return parseTemplate(template.WebServer, emptyPayload)
 }

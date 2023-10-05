@@ -1,5 +1,6 @@
 import { Model } from '../../../../language/generated/ast.js';
 import { File, generateFile } from '../types.js';
+import config from '../../../config.js';
 import {
   buildConfig,
   buildControllerInterface,
@@ -48,8 +49,8 @@ const baseProject: File[] = [
   },
 ]
 
-export function GenerateBaseProject(model: Model, target_folder: string) {
+export function GenerateBaseProject(model: Model) {
   for (let i = 0; i < baseProject.length; i++) {
-    generateFile(baseProject[i], model, target_folder);
+    generateFile(baseProject[i], config.targetFolder, model);
   }
 }

@@ -1,25 +1,27 @@
-import { Model } from "../../../../language/generated/ast.js";
+import { Dao, Model } from "../../../../language/generated/ast.js";
+import config from "../../../config.js";
 import { parseTemplate } from "../../../util/generator-utils.js";
 import { File, generateFile } from "../types.js";
-import { Dao } from "./template.js";
+import { template } from "./template.js";
 
 function buildModel(model: Model, data: () => Object = () => ({})): string {
-	return parseTemplate(Dao, data())
+	return parseTemplate(template, data())
 }
 
-export function GenerateDaos(model: Model, target_folder: string) {
-  for (let i = 0; i < model.daos.length; i++) {
-    const elem = model.daos[i];
-    const file = {
-      relativePath: "/models/dao",
-      fileName: `${elem.name.toLowerCase()}.dao.go`,
-      builder: buildModel,
-      data() {
-        return {
-          name: elem.name.toLowerCase(),
-        }
+export function GenerateDao(dao: Dao) {
+  const file = {
+    relativePath: "/models/dao",
+    fileName: `${dao.name.toLowerCase()}.dao.go`,
+    builder: buildModel,
+    data() {
+      return {
+        name: dao.name.toLowerCase(),
       }
-    } as File;
-    generateFile(file, model, target_folder)
-  }
+    }
+  } as File;
+  generateFile(file, config.targetFolder)
+}
+
+export function GenerateDaos(daos: Array<Dao>) {
+  daos.forEach(dao => { GenerateDao(dao) })
 }

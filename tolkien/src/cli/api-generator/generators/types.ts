@@ -7,11 +7,11 @@ import { createPath } from "../../util/generator-utils.js"
 export type File = {
   relativePath: string
   fileName: string
-  builder: (model: Model, data?: () => Object) => string
+  builder: (model?: Model, data?: () => Object) => string
   data?: () => Object
 }
 
-export function generateFile(file: File, model: Model, target_folder: string) {
+export function generateFile(file: File, target_folder: string, model?: Model) {
   const dirPath = path.join(target_folder, file.relativePath);
   createPath(dirPath)
 

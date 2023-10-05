@@ -1,4 +1,4 @@
-export const Controller = `
+export const template = `
 package {package_name}
 
 import (

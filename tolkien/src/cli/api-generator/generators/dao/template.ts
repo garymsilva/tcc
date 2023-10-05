@@ -1,4 +1,4 @@
-export const Dao = `
+export const template = `
 package dao
 
 type {{upper_name}}Dao interface {
