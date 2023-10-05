@@ -1,4 +1,6 @@
-export const template = `
+import { expandToStringWithNL } from "langium";
+
+export const template = expandToStringWithNL`
 package dao
 
 type {{upper_name}}Dao interface {

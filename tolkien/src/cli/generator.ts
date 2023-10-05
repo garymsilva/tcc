@@ -3,8 +3,10 @@ import * as path from 'node:path';
 import config from './config.js';
 import {
     GenerateBaseProject,
-    GenerateDaos,
     GenerateDomain,
+    GenerateDaos,
+    GenerateControllers,
+    GenerateServices
 } from './api-generator/index.js';
 
 export function generateGoLangApi(model: Model, filePath: string, destination: string | undefined): string {
@@ -14,6 +16,8 @@ export function generateGoLangApi(model: Model, filePath: string, destination: s
     GenerateBaseProject(model);
     GenerateDomain(model.domain);
     GenerateDaos(model.daos);
+    GenerateServices(model.services);
+    GenerateControllers(model.controllers);
     return target;
 }
 

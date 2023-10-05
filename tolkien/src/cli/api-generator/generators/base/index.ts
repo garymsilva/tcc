@@ -6,6 +6,7 @@ import {
   buildControllerInterface,
   buildGoMod,
   buildMain,
+  buildMiddlewareOptions,
   buildRouter,
   buildStartCmd,
   buildWebServer,
@@ -36,6 +37,11 @@ const baseProject: File[] = [
     relativePath: "/web/controllers",
     fileName: "controller.go",
     builder: buildControllerInterface
+  },
+  {
+    relativePath: "/web/middleware",
+    fileName: "options.go",
+    builder: buildMiddlewareOptions
   },
   {
     relativePath: "/config",

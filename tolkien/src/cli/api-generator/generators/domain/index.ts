@@ -1,17 +1,11 @@
-import { expandToStringWithNL } from "langium";
 import { Domain, Model } from "../../../../language/generated/ast.js";
 import { parseTemplate } from "../../../util/generator-utils.js";
 import { File, generateFile } from "../types.js";
 import config from "../../../config.js";
-
-const DomainTemplate = expandToStringWithNL`
-package models
-
-type {{upper_name}} struct{}
-`
+import { template } from "./template.js";
 
 function buildDomain(model: Model, data: () => Object = () => ({})): string {
-	return parseTemplate(DomainTemplate, data())
+	return parseTemplate(template, data())
 }
 
 function GenerateModel(model: Domain) {

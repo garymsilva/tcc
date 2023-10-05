@@ -47,3 +47,7 @@ export function buildRouter(): string {
 export function buildWebServer(): string {
 	return parseTemplate(template.WebServer, emptyPayload)
 }
+
+export function buildMiddlewareOptions(): string {
+	return parseTemplate(template.MiddlewareOptions, emptyPayload)
+}

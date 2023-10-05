@@ -19,37 +19,24 @@ lib "golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0"
 lib "google.golang.org/api v0.93.0"
 lib "gorm.io/gorm v1.23.8"
 
-type participant
-type participation
-dao participant
-dao participation
+// Domain
+model participant
 
-service participation
-  daos=[
-    dao participation
-  ]
+// Services
+service participant {
+  dao participant
+}
 
-service participant
-  services=[
-    service participation
-  ]
-  daos=[
-    dao participant
-  ]
+service quiz {
+  dao quiz
+  dao quiz_answer
+}
 
-// controller participant
+// Controllers
+controller participant {
+  service participant
+}
 
-// controller participant services [participant]
-
-// comandos de cli
-// gandalf generate controller:user(service:user(dao:user()))
-// gandalf generate controller:user(service:user(dao:user()),service:product(dao:product()))
-// gandalf generate service:user(dao:user())
-// gandalf generate service:user(dao:user(),service:product())
-// gandalf generate dao:user()
-
-// gandalf generate service:user[dao:user,service:product[dao:product]]
-// gandalf generate dao:user service:user[dao:user] dao:product service:product[dao:product] controller:purchase[service:user,service:product]
-
-// futuro
-// gandalf generate service:user[dao:user,method:getUser[userId:][]]
+controller quiz {
+  service quiz
+}
