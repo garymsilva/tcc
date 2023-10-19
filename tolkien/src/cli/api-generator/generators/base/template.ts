@@ -203,6 +203,7 @@ type Config struct {
 	Propertyes              c.Configurations
 	PostgreSQL              string
 	Server                  server        \`json:"server"\`
+	GraphQL                 graphQL       \`json:"graphql"\`
 	SnakeByDefault          bool
 	GarbageCollectorMinutes int
 }
@@ -223,6 +224,10 @@ type security struct {
 	BcryptCost int //10,11,12,13,14
 	JWTSecret  string
 	AESKey     string
+}
+
+type graphQL struct {
+	GraphQLServerURL string
 }
 
 // Config global
@@ -268,6 +273,8 @@ func Load(args []string) {
 
 	cfg.BcryptCost, _ = strconv.Atoi(cfg.getEnvOrFile("BCRYPT_COST"))
 	cfg.DefaultPassword = cfg.getEnvOrFile("DEFAULT_PASSWORD")
+
+	cfg.GraphQL.GraphQLServerURL = cfg.getEnvOrFile("GRAPHQL_SERVER_URL")
 
 	cfg.Server.Security.JWTSecret = cfg.getEnvOrFile("JWT_SECRET")
 	c.Configuration.Security.JWTSecret = cfg.Server.Security.JWTSecret

@@ -1,7 +1,7 @@
 import { Domain, Model } from "../../../../language/generated/ast.js";
 import { parseTemplate } from "../../../util/generator-utils.js";
 import { File, generateFile } from "../types.js";
-import config from "../../../config.js";
+import generatorConfig from "../../../config.js";
 import { template } from "./template.js";
 
 function buildDomain(model: Model, data: () => Object = () => ({})): string {
@@ -19,7 +19,7 @@ function GenerateModel(model: Domain) {
       }
     }
   } as File;
-  generateFile(file, config.targetFolder)
+  generateFile(file, generatorConfig.targetFolder)
 }
 
 export function GenerateDomain(domain: Array<Domain>) {

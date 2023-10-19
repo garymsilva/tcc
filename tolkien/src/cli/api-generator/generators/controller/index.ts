@@ -1,6 +1,6 @@
 import { Controller, Model } from "../../../../language/generated/ast.js";
 import { parseTemplate } from '../../../util/generator-utils.js';
-import config from '../../../config.js';
+import generatorConfig from '../../../config.js';
 import { File, generateFile } from '../types.js';
 import * as template from './template.js';
 
@@ -51,7 +51,7 @@ function GenerateController(controller: Controller) {
     }
   ]
 
-  files.forEach(file => generateFile(file, config.targetFolder))
+  files.forEach(file => generateFile(file, generatorConfig.targetFolder))
 }
 
 export function GenerateControllers(controllers: Array<Controller>) {

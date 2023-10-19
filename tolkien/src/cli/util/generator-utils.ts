@@ -44,3 +44,13 @@ export function parseTemplate(template: string, data: Object): string {
   })
   return result;
 }
+
+export function readFileAsStringArr(path: string): string[] {
+  if (!fs.existsSync(path)) return [];
+  const buff = fs.readFileSync(path, { encoding: 'utf-8', flag: 'r' });
+  return buff.split('\n');
+}
+
+export function appendFile(path: string, data: string) {
+  fs.appendFileSync(path, data)
+}

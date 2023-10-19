@@ -1,5 +1,5 @@
 import { Service, Model } from "../../../../language/generated/ast.js";
-import config from "../../../config.js";
+import generatorConfig from "../../../config.js";
 import { parseTemplate } from "../../../util/generator-utils.js";
 import { File, generateFile } from "../types.js";
 import { template } from "./template.js";
@@ -19,7 +19,7 @@ export function GenerateDao(service: Service) {
       }
     }
   } as File;
-  generateFile(file, config.targetFolder)
+  generateFile(file, generatorConfig.targetFolder)
 }
 
 export function GenerateServices(services: Array<Service>) {

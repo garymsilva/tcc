@@ -19,24 +19,31 @@ lib "golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0"
 lib "google.golang.org/api v0.93.0"
 lib "gorm.io/gorm v1.23.8"
 
+
 // Domain
 model participant
 
-// Services
-service participant {
-  dao participant
+// Dao
+dao participant {
+  func Insert
+  func Update
 }
 
-service quiz {
-  dao quiz
-  dao quiz_answer
-}
+// // Services
+// service participant {
+//   dao participant
+// }
 
-// Controllers
-controller participant {
-  service participant
-}
+// service quiz {
+//   dao quiz
+//   dao quiz_answer
+// }
 
-controller quiz {
-  service quiz
-}
+// // Controllers
+// controller participant {
+//   service participant
+// }
+
+// controller quiz {
+//   service quiz
+// }

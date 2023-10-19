@@ -11,13 +11,15 @@ export type File = {
   data?: () => Object
 }
 
-export function generateFile(file: File, target_folder: string, model?: Model) {
+export function generateFile(file: File, target_folder: string, model?: Model): string {
   const dirPath = path.join(target_folder, file.relativePath);
-  createPath(dirPath)
+  createPath(dirPath);
 
   const filePath = path.join(dirPath, file.fileName);
   const fileExists = existsSync(filePath);
   if (!fileExists) {
     writeFileSync(filePath, toString(file.builder(model, file.data)));
   }
+
+  return filePath;
 }
