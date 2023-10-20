@@ -29,10 +29,11 @@ dao participant {
   func Update
 }
 
-// // Services
-// service participant {
-//   dao participant
-// }
+// Services
+service participant {
+  dao participant
+  func Insert
+}
 
 // service quiz {
 //   dao quiz

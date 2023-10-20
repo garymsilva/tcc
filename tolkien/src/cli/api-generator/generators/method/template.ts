@@ -5,5 +5,5 @@ export const FuncDeclare = expandToStringWithNL`
 `
 
 export const Func = expandToStringWithNL`
-func ({{key}} *{{entity_name}}) {{upper_name}}() {}
+func ({{key}} *{{struct_name}}) {{upper_name}}() {}
 `

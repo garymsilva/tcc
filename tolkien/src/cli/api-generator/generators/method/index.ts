@@ -1,11 +1,12 @@
 import { toString } from "langium"
 import { Method } from "../../../../language/generated/ast.js"
-import { capitalizeString, parseTemplate, readFileAsStringArr } from "../../../util/generator-utils.js"
+import { parseTemplate, readFileAsStringArr } from "../../../util/generator-utils.js"
 import { Func, FuncDeclare } from "./template.js"
 import { appendFileSync, writeFileSync } from "fs"
 
 export type MethodParams = {
-  name: string
+  interface: string
+  struct: string
   key: string
   methods: Method[]
 }
@@ -14,7 +15,7 @@ export function addMethods(path: string, params: MethodParams) {
   const lines = readFileAsStringArr(path);
   const methods = params.methods.map(func => ({
     head: parseTemplate(FuncDeclare, { name: func.name }),
-    body: parseTemplate(Func, { name: func.name, key: params.key, entity_name: params.name })
+    body: parseTemplate(Func, { name: func.name, key: params.key, struct_name: params.struct })
   }));
 
 
@@ -24,7 +25,7 @@ export function addMethods(path: string, params: MethodParams) {
   
   const heads = methodsToAdd.map(m => "\t"+m.head).join("");
 
-  const openingIndex = lines.findIndex((line) => line.includes(capitalizeString(params.name)));
+  const openingIndex = lines.findIndex((line) => line.includes(params.interface));
   let closingIndex = openingIndex+1;
   while (lines[closingIndex] != '}') {
     closingIndex++;

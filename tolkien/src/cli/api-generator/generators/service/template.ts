@@ -1,5 +1,5 @@
 export const template = `
-package adjustment_request
+package {{name}}
 
 import (
   
@@ -16,7 +16,8 @@ var (
   // ParticipantService participant.ParticipantService
 )
 
-type {{upper_name}}Service interface {}
+type {{upper_name}}Service interface {
+}
 
 type service struct {
 	// TODO: declarar correlações
@@ -25,7 +26,7 @@ type service struct {
   instrumentable.Instrumented
 }
 
-func NewAdjustmentRequest() {{upper_name}}Service {
+func New{{upper_name}}Service() {{upper_name}}Service {
 	// TODO: instanciar correlações
   // pra cada um, se for nil, setar, chamando o New
   // if AdjustmentRequestDao == nil {
