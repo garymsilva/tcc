@@ -1,6 +1,7 @@
 import { Service, Model } from "../../../../language/generated/ast.js";
 import generatorConfig from "../../../config.js";
 import { capitalizeString, parseTemplate } from "../../../util/generator-utils.js";
+import { addDaos } from "../dao/index.js";
 import { addMethods } from "../method/index.js";
 import { File, generateFile } from "../types.js";
 import { template } from "./template.js";
@@ -9,7 +10,7 @@ function buildService(model: Model, data: () => Object = () => ({})): string {
 	return parseTemplate(template, data())
 }
 
-export function GenerateDao(service: Service) {
+export function GenerateService(service: Service) {
   const name = service.name.toLowerCase();
   const file = {
     relativePath: `/services/${service.name}`,
@@ -18,9 +19,6 @@ export function GenerateDao(service: Service) {
     data() {
       return {
         name,
-        var_daos: "", // TODO: gerar
-        var_services: "", // TODO: gerar
-        attributes: "", // TODO: gerar
       }
     }
   } as File;
@@ -31,8 +29,12 @@ export function GenerateDao(service: Service) {
     key: 's',
     methods: service.methods,
   })
+  addDaos(path, {
+    struct: 'service',
+    daos: service.daos,
+  })
 }
 
 export function GenerateServices(services: Array<Service>) {
-  services.forEach(service => { GenerateDao(service) })
+  services.forEach(service => { GenerateService(service) })
 }

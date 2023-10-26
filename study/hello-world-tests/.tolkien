@@ -33,6 +33,7 @@ dao participant {
 service participant {
   dao participant
   func Insert
+  func Update
 }
 
 // service quiz {
@@ -41,9 +42,9 @@ service participant {
 // }
 
 // // Controllers
-// controller participant {
-//   service participant
-// }
+controller participant {
+  service participant
+}
 
 // controller quiz {
 //   service quiz

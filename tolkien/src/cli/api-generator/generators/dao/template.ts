@@ -53,9 +53,31 @@ type {{name}}Dao struct {
   dao
 }
 
-func New() {{upper_name}}Dao {
+func New{{upper_name}}Dao() {{upper_name}}Dao {
   return &{{name}}Dao {
     dao: new("{{name}}Dao"),
   }
 }
+`
+
+export const DaoImport = expandToStringWithNL`
+	"sauron/models/dao"
+`
+
+export const DaoVar = expandToStringWithNL`
+	{{upper_name}}Dao dao.{{upper_name}}Dao
+`
+
+export const DaoAttribute = expandToStringWithNL`
+	{{name}}Dao dao.{{upper_name}}Dao
+`
+
+export const DaoInit = expandToStringWithNL`
+	if {{upper_name}}Dao == nil {
+		{{upper_name}}Dao = dao.New{{upper_name}}Dao()
+	}
+`
+
+export const DaoInject = expandToStringWithNL`
+		{{name}}Dao: {{upper_name}}Dao,
 `

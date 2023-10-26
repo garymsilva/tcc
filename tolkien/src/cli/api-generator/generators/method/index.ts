@@ -22,6 +22,10 @@ export function addMethods(path: string, params: MethodParams) {
   const methodsToAdd = methods.filter(method => {
     return !lines.some(line => line.includes(method.head.slice(0, -1)));
   })
+
+  if (methodsToAdd.length == 0) {
+    return
+  }
   
   const heads = methodsToAdd.map(m => "\t"+m.head).join("");
 
