@@ -73,7 +73,7 @@ export function addDaos(path: string, params: DaoParams) {
 
     lines = [
       ...lines.slice(0, importClose),
-      "\t"+template.DaoImport,
+      "\t"+template.DaoImport.trimEnd(),
       ...lines.slice(importClose)
     ];
   }
@@ -84,17 +84,18 @@ export function addDaos(path: string, params: DaoParams) {
 
   lines = [
     ...lines.slice(0, varClose),
-    ...daosToAdd.map(d => "\t"+d.var),
+    ...daosToAdd.map(d => "\t"+d.var.trimEnd()),
     ...lines.slice(varClose)
   ];
 
   // put attributes in struct
   let structClose = lines.findIndex((line) => line.includes("struct {"))+1;
-  while (lines[structClose] != '}') structClose++;
+  while (!lines[structClose].includes('instrumentable.Instrumented') && lines[structClose] != '}') structClose++;
+  // while (lines[structClose] != '}') structClose++;
 
   lines = [
     ...lines.slice(0, structClose),
-    ...daosToAdd.map(d => "\t"+d.attribute),
+    ...daosToAdd.map(d => "\t"+d.attribute.trimEnd()),
     ...lines.slice(structClose)
   ];
 
@@ -102,7 +103,7 @@ export function addDaos(path: string, params: DaoParams) {
   let constructorClose = lines.findIndex((line) => line.includes(`return &${params.struct}{`));
   lines = [
     ...lines.slice(0, constructorClose),
-    ...daosToAdd.map(d => d.init),
+    ...daosToAdd.map(d => d.init.trimEnd()),
     ...lines.slice(constructorClose)
   ];
 
@@ -112,7 +113,7 @@ export function addDaos(path: string, params: DaoParams) {
 
   lines = [
     ...lines.slice(0, returnClose),
-    ...daosToAdd.map(d => "\t\t"+d.inject),
+    ...daosToAdd.map(d => "\t\t"+d.inject.trimEnd()),
     ...lines.slice(returnClose)
   ];
 

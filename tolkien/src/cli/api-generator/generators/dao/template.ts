@@ -61,23 +61,23 @@ func New{{upper_name}}Dao() {{upper_name}}Dao {
 `
 
 export const DaoImport = expandToStringWithNL`
-	"sauron/models/dao"
+"sauron/models/dao"
 `
 
 export const DaoVar = expandToStringWithNL`
-	{{upper_name}}Dao dao.{{upper_name}}Dao
+{{upper_name}}Dao dao.{{upper_name}}Dao
 `
 
 export const DaoAttribute = expandToStringWithNL`
-	{{name}}Dao dao.{{upper_name}}Dao
+{{name}}Dao dao.{{upper_name}}Dao
 `
 
 export const DaoInit = expandToStringWithNL`
-	if {{upper_name}}Dao == nil {
-		{{upper_name}}Dao = dao.New{{upper_name}}Dao()
-	}
+if {{upper_name}}Dao == nil {
+	{{upper_name}}Dao = dao.New{{upper_name}}Dao()
+}
 `
 
 export const DaoInject = expandToStringWithNL`
-		{{name}}Dao: {{upper_name}}Dao,
+{{name}}Dao: {{upper_name}}Dao,
 `
