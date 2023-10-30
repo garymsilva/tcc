@@ -74,7 +74,7 @@ export function addServices (path: string, params: ServiceParams) {
     return
   }
 
-  // put vars
+  // put imports
   let importClose = lines.findIndex((line) => line.includes("import ("))+1;
   while (lines[importClose] != ')') importClose++;
 
@@ -96,7 +96,7 @@ export function addServices (path: string, params: ServiceParams) {
 
   // put attributes in struct
   let structClose = lines.findIndex((line) => line.includes("struct {"))+1;
-  while (!lines[structClose].includes('instrumentable.Instrumented')) structClose++;
+  while (!lines[structClose].includes('instrumentable.Instrumented') && lines[structClose] != '}') structClose++;
 
   lines = [
     ...lines.slice(0, structClose),

@@ -26,6 +26,9 @@ Domain:
 Method:
     'func' name=ID;
 
+Handler:
+    Method;
+
 Dao:
     'dao' name=ID ('{'(methods+=Method)*'}')?;
 
@@ -33,7 +36,7 @@ Service:
     'service' name=ID ('{'(services+=Service | daos+=Dao | methods+=Method)*'}')?;
 
 Controller:
-    'controller' name=ID ('{'(services+=Service)*'}')?;
+    'controller' name=ID ('{'(services+=Service | handlers+=Handler)*'}')?;
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][\w_]*/;

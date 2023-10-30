@@ -91,8 +91,7 @@ export function addDaos(path: string, params: DaoParams) {
   // put attributes in struct
   let structClose = lines.findIndex((line) => line.includes("struct {"))+1;
   while (!lines[structClose].includes('instrumentable.Instrumented') && lines[structClose] != '}') structClose++;
-  // while (lines[structClose] != '}') structClose++;
-
+  
   lines = [
     ...lines.slice(0, structClose),
     ...daosToAdd.map(d => "\t"+d.attribute.trimEnd()),

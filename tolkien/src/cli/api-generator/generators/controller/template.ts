@@ -4,25 +4,22 @@ export const Controller = expandToStringWithNL`
 package {{name}}
 
 import (
-  "sauron/web/controllers"
-  "sauron/web/server"
+	"sauron/web/controllers"
+	"sauron/web/server"
+)
+
+var (
 )
 
 type controller struct {
-  s *server.Server
-  // TODO: linkar services
-  // {{services}}
+	s *server.Server
 }
 
 func New() controllers.Controller {
-  return &controller {
-    s: nil,
-    // Inicializar services
-    // {{services}}
-  }
+	return &controller{
+		s: nil,
+	}
 }
-
-// {{methods}}
 `
 
 export const Entities = expandToStringWithNL`
@@ -47,4 +44,13 @@ func (c *controller) SetupRouter(s *server.Server) {
 
 export const ControllerTest = expandToStringWithNL`
 package {{name}}_test
+`
+
+export const HandlerHead = expandToStringWithNL`
+{{name}}(w http.ResponseWriter, r *http.Request)
+`
+
+export const Handler = expandToStringWithNL`
+func ({{key}} *{{struct_name}}) {{name}}(w http.ResponseWriter, r *http.Request) {
+}
 `
